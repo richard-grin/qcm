@@ -9,6 +9,7 @@
   <body>
 
     <ui:composition template="./../template.xhtml">
+
       <ui:define name="metadata">
         <f:metadata>
           <f:viewParam name="idQuestion" value="#{ajoutQuestion.questionEnCours}" />
@@ -47,10 +48,16 @@
               <p:column headerText="Réponse correcte ?">
                 <h:selectBooleanCheckbox value="#{reponse.ok}"/>
               </p:column>
+              <p:column>
+                <h:commandButton value="Supprimer cette réponse"
+                                 action="#{ajoutQuestion.supprimerReponse(reponse)}" >
+                  <f:ajax render="tableReponses" />
+                </h:commandButton>
+              </p:column>
             </p:dataTable>
           </h:panelGroup>
           <h:commandLink action="#{ajoutQuestion.ajouterReponse}" value="Ajouter une réponse">
-            <ui:remove><f:ajax render="tableReponses" /></ui:remove>
+            <f:ajax execute="tableReponses" render="tableReponses" />
           </h:commandLink>
 
           <br/><br/>

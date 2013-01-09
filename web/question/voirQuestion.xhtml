@@ -12,26 +12,29 @@
       <ui:define name="metadata">
         <f:metadata>
           <f:viewParam name="idQuestion" value="#{ajoutQuestion.questionEnCours}" />
-          <f:event listener="#{ajoutQuestion.initQuestion()}" type="preRenderView" />
         </f:metadata>
+      </ui:define>
+
+      <ui:define name="left">
+        left
       </ui:define>
 
       <ui:define name="content">
         <h:form>
-          <h1><h:outputText value="Ajouter / Modifier une question"/></h1>
+          <h1><h:outputText value="Voir une question"/></h1>
           <h:messages globalOnly="true" infoClass="info" />
           <h:panelGrid columns="3">
             <h:outputLabel value="Enonce:" for="enonce" />
             <h:inputTextarea id="enonce" value="#{ajoutQuestion.questionEnCours.enonce}" title="Enonce" 
-                             required="true" requiredMessage="Vous devez donner l'énoncé de la question" />
+                             readOnly="true" />
             <h:message for="enonce" />
             <h:outputLabel value="MotsCles:" for="motsCles" />
-            <h:inputText id="motsCles" value="#{ajoutQuestion.questionEnCours.motsCles}"
-                         title="Mots clés, séparés par des virgules" />
+            <h:outputText id="motsCles" value="#{ajoutQuestion.questionEnCours.motsCles}"
+                          title="Mots clés, séparés par des virgules" />
             <h:message for="motsCles" />
             <h:outputLabel value="Id:" for="id" />
-            <h:inputText id="id" value="#{ajoutQuestion.questionEnCours.id}" title="Id" 
-                         readonly="true" />
+            <h:outputText id="id" value="#{ajoutQuestion.questionEnCours.id}" title="Id" 
+                          readonly="true" />
             <h:message for="id" />
           </h:panelGrid>
           <br/>
@@ -42,27 +45,21 @@
             <p:dataTable id="tableReponses" value="#{ajoutQuestion.questionEnCours.reponses}"
                          var="reponse">
               <p:column headerText="Texte de la réponse">
-                <h:inputTextarea value="#{reponse.intitule}" size="80"/>
+                <h:inputTextarea value="#{reponse.intitule}" size="80"
+                                 readonly="true"/>
               </p:column>
               <p:column headerText="Réponse correcte ?">
-                <h:selectBooleanCheckbox value="#{reponse.ok}"/>
+                <h:selectBooleanCheckbox value="#{reponse.ok}"
+                                         readonly="true"/>
               </p:column>
             </p:dataTable>
           </h:panelGroup>
-          <h:commandLink action="#{ajoutQuestion.ajouterReponse}" value="Ajouter une réponse">
-            <ui:remove><f:ajax render="tableReponses" /></ui:remove>
-          </h:commandLink>
-
           <br/><br/>
-          <h:commandButton action="#{ajoutQuestion.enregistrer(true)}" value="Enregistrer" 
-                           title="Enregistrer la question et ses réponses"/>
-          <h:commandButton action="#{ajoutQuestion.enregistrer(false)}" value="Enregistrer et voir la liste des questions"
-                           title="Enregistrer la question et ses réponses et afficher ensuite la liste des questions"/>
-          <br/>
-          <h:commandButton type="reset" immediate="true" value="Reset" 
-                           action="#{ajoutQuestion.reset}"/>
+          <h:link outcome="modifierQuestion" value="Modifier cette question" >
+            <f:param name="idQuestion" value="#{ajoutQuestion.questionEnCours.id}" />
+          </h:link>
           <br/><br/>
-          <h:link outcome="listeQuestions" value="Afficher toutes les questions (sans enregistrer)" />
+          <h:link outcome="listeQuestions" value="Afficher toutes les questions" />
         </h:form>
       </ui:define>
 

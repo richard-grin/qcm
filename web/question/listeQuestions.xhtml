@@ -10,46 +10,49 @@
 
     <ui:composition template="./../template.xhtml">
 
-      <ui:define name="top">
-        top
-      </ui:define>
-
-      <ui:define name="left">
-        left
-      </ui:define>
-
       <ui:define name="content">
         <h:form>
-        <h1><h:outputText value="Liste des questions"/></h1>
-        <p:dataTable value="#{listeQuestions.questions}" var="item"
-                     emptyMessage="Aucune question trouvée"
-                     >
-          <p:column>
-            <f:facet name="header">
-              <h:outputText value="Enonce"/>
-            </f:facet>
-            <h:inputTextarea readonly="true"  value="#{item.enonce}" />
-          </p:column>
-          <p:column>
-            <f:facet name="header">
-              <h:outputText value="MotsCles"/>
-            </f:facet>
-            <h:outputText value="#{item.motsCles}"/>
-          </p:column>
-          <p:column>
-            <f:facet name="header">
-              <h:outputText value="Id"/>
-            </f:facet>
-            <h:outputText value="#{item.id}"/>
-          </p:column>
-          <p:column>
-            <h:link outcome="View" includeViewParams="true" value="Détails sur la question">
-              <f:param name="idQuestion" value="#{item.id}" />
-            </h:link>
-          </p:column>
-        </p:dataTable>
-        <h:link outcome="creerQuestion" value="Ajouter une question"/>
-      </h:form>
+          <h1><h:outputText value="Liste des questions"/></h1>
+          <h:messages globalOnly="true" infoStyle="color: limegreen; font-weight : bold;"/>
+          <p:dataTable value="#{listeQuestions.questions}" var="item"
+                       emptyMessage="Aucune question trouvée"
+                       >
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="Enonce"/>
+              </f:facet>
+              <h:inputTextarea readonly="true"  value="#{item.enonce}" />
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="MotsCles"/>
+              </f:facet>
+              <h:outputText value="#{item.motsCles}"/>
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="Id"/>
+              </f:facet>
+              <h:outputText value="#{item.id}"/>
+            </p:column>
+            <p:column>
+              <h:link outcome="voirQuestion" value="Détails sur la question">
+                <f:param name="idQuestion" value="#{item.id}" />
+              </h:link>
+              <br/>
+              <h:link outcome="modifierQuestion_sans_primefaces" value="Modifier la question">
+                <f:param name="idQuestion" value="#{item.id}" />
+              </h:link>
+              <br/>
+
+              <h:commandLink action="#{listeQuestions.supprimerQuestion()}" value="Supprimer la question" >
+                <f:param name="idQuestion" value="#{item.id}" />
+              </h:commandLink>
+
+            </p:column>
+          </p:dataTable>
+          <h:link outcome="creerQuestion" value="Ajouter une question"/>
+        </h:form>
       </ui:define>
 
     </ui:composition>

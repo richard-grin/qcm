@@ -5,6 +5,7 @@ import fr.rgrin.projetqcm.entite.Question;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
@@ -27,5 +28,17 @@ public class ListeQuestions {
     return questions;
   }
   
+  public String supprimerQuestion(Question question) {
+    questionFacade.remove(question);
+    return "?faces-redirect=true";
+  }
   
+  public String supprimerQuestion() {
+    // Récupére le paramètre
+    String idQuestion = FacesContext.getCurrentInstance().getExternalContext()
+            .getRequestParameterMap().get("idQuestion");
+    Question question = questionFacade.find(Long.parseLong(idQuestion));
+    questionFacade.remove(question);
+    return "listeQuestions?faces-redirect=true";
+  }
 }

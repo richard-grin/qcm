@@ -3,12 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html">
 
   <body>
 
     <ui:composition template="./../template.xhtml">
+
       <ui:define name="metadata">
         <f:metadata>
           <f:viewParam name="idQuestion" value="#{ajoutQuestion.questionEnCours}" />
@@ -39,18 +39,24 @@
           <!-- Les réponses aux questions -->
           <h:panelGroup rendered="#{ajoutQuestion.questionEnCours.reponses != null}">
             <h3>Réponses à la question :</h3>
-            <p:dataTable id="tableReponses" value="#{ajoutQuestion.questionEnCours.reponses}"
+            <h:dataTable id="tableReponses" value="#{ajoutQuestion.questionEnCours.reponses}"
                          var="reponse">
-              <p:column headerText="Texte de la réponse">
+              <h:column headerText="Texte de la réponse">
                 <h:inputTextarea value="#{reponse.intitule}" size="80"/>
-              </p:column>
-              <p:column headerText="Réponse correcte ?">
+              </h:column>
+              <h:column headerText="Réponse correcte ?">
                 <h:selectBooleanCheckbox value="#{reponse.ok}"/>
-              </p:column>
-            </p:dataTable>
+              </h:column>
+              <h:column>
+                <h:commandButton value="Supprimer cette réponse"
+                                 action="#{ajoutQuestion.supprimerReponse(reponse)}" >
+                  <f:ajax render="tableReponses" />
+                </h:commandButton>
+              </h:column>
+            </h:dataTable>
           </h:panelGroup>
           <h:commandLink action="#{ajoutQuestion.ajouterReponse}" value="Ajouter une réponse">
-            <ui:remove><f:ajax render="tableReponses" /></ui:remove>
+            <f:ajax execute="tableReponses" render="tableReponses" />
           </h:commandLink>
 
           <br/><br/>
