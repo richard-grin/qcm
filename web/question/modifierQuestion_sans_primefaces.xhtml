@@ -17,7 +17,7 @@
       </ui:define>
 
       <ui:define name="content">
-        <h:form>
+        <h:form id="form" >
           <h1><h:outputText value="Ajouter / Modifier une question"/></h1>
           <h:messages globalOnly="true" infoClass="info" />
           <h:panelGrid columns="3">
@@ -30,14 +30,14 @@
                          title="Mots clés, séparés par des virgules" />
             <h:message for="motsCles" />
             <h:outputLabel value="Id:" for="id" />
-            <h:inputText id="id" value="#{ajoutQuestion.questionEnCours.id}" title="Id" 
+            <h:inputText id="id" value="#{ajoutQuestion.questionEnCours.id}" title="Id"
                          readonly="true" />
             <h:message for="id" />
           </h:panelGrid>
           <br/>
 
           <!-- Les réponses aux questions -->
-          <h:panelGroup rendered="#{ajoutQuestion.questionEnCours.reponses != null}">
+          <h:panelGroup id="panelReponses" rendered="#{ajoutQuestion.questionEnCours.reponses != null}">
             <h3>Réponses à la question :</h3>
             <h:dataTable id="tableReponses" value="#{ajoutQuestion.questionEnCours.reponses}"
                          var="reponse">
@@ -50,7 +50,7 @@
               <h:column>
                 <h:commandButton value="Supprimer cette réponse"
                                  action="#{ajoutQuestion.supprimerReponse(reponse)}" >
-                  <f:ajax render="tableReponses" />
+                  <f:ajax execute="@form" render="@form" />
                 </h:commandButton>
               </h:column>
             </h:dataTable>

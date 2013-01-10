@@ -92,7 +92,7 @@ public class AjoutQuestion implements Serializable {
   }
   
   public void supprimerReponse(Reponse reponse) {
-    System.out.println("supprimerReponse: reponse à supprimer=" + reponse);
+    System.out.println("supprimerReponse: reponse à supprimer=" + reponse + " de la question en cours " + questionEnCours);
     questionEnCours.getReponses().remove(reponse);
     System.out.println("****supprimerReponse: la liste des réponses après suppression :" 
             + questionEnCours.getReponses());

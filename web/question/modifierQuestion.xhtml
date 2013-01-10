@@ -41,7 +41,7 @@
           <h:panelGroup rendered="#{ajoutQuestion.questionEnCours.reponses != null}">
             <h3>Réponses à la question :</h3>
             <p:dataTable id="tableReponses" value="#{ajoutQuestion.questionEnCours.reponses}"
-                         var="reponse">
+                         var="reponse" binding="#{table}">
               <p:column headerText="Texte de la réponse">
                 <h:inputTextarea value="#{reponse.intitule}" size="80"/>
               </p:column>
@@ -51,7 +51,7 @@
               <p:column>
                 <h:commandButton value="Supprimer cette réponse"
                                  action="#{ajoutQuestion.supprimerReponse(reponse)}" >
-                  <f:ajax render="tableReponses" />
+                  <f:ajax render="@form" />
                 </h:commandButton>
               </p:column>
             </p:dataTable>
