@@ -23,7 +23,8 @@
           <h:panelGrid columns="3">
             <h:outputLabel value="Enonce:" for="enonce" />
             <h:inputTextarea id="enonce" value="#{ajoutQuestion.questionEnCours.enonce}" title="Enonce" 
-                             required="true" requiredMessage="Vous devez donner l'énoncé de la question" />
+                             required="true" requiredMessage="Vous devez donner l'énoncé de la question"
+                             cols="50" rows="4"/>
             <h:message for="enonce" />
             <h:outputLabel value="MotsCles:" for="motsCles" />
             <h:inputText id="motsCles" value="#{ajoutQuestion.questionEnCours.motsCles}"
@@ -37,12 +38,13 @@
           <br/>
 
           <!-- Les réponses aux questions -->
-          <h:panelGroup rendered="#{ajoutQuestion.questionEnCours.reponses != null}">
+          <h:panelGroup rendered="#{ajoutQuestion.reponses != null}">
             <h3>Réponses à la question :</h3>
-            <p:dataTable id="tableReponses" value="#{ajoutQuestion.questionEnCours.reponses}"
+            <p:dataTable id="tableReponses" value="#{ajoutQuestion.reponses}"
                          var="reponse">
               <p:column headerText="Texte de la réponse">
-                <h:inputTextarea value="#{reponse.intitule}" size="80"/>
+                <h:inputTextarea value="#{reponse.intitule}"
+                                 rows="4" cols="50"/>
               </p:column>
               <p:column headerText="Réponse correcte ?">
                 <h:selectBooleanCheckbox value="#{reponse.ok}"/>
@@ -50,7 +52,9 @@
             </p:dataTable>
           </h:panelGroup>
           <h:commandLink action="#{ajoutQuestion.ajouterReponse}" value="Ajouter une réponse">
-            <ui:remove><f:ajax render="tableReponses" /></ui:remove>
+            <ui:remove>
+              <f:ajax render="tableReponses" />
+            </ui:remove>
           </h:commandLink>
 
           <br/><br/>

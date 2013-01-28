@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+  <body>
+
+    <ui:composition template="./../template.xhtml">
+      <ui:define name="metadata">
+        <f:metadata>
+          <f:viewParam name="idQuestionnaire" value="#{ajoutQuestionnaire.questionnaireEnCours}" />
+        </f:metadata>
+      </ui:define>
+
+      <ui:define name="content">
+        <h:form>
+          <h1><h:outputText value="Voir un questionnaire"/></h1>
+          <h:messages globalOnly="true" infoClass="info" />
+          <h:panelGrid columns="3">
+            <h:outputLabel value="Titre :" for="titre" />
+            <h:inputTextarea id="titre" value="#{ajoutQuestionnaire.questionnaireEnCours.titre}" title="Titre" 
+                             readOnly="true" />
+            <h:message for="titre" />
+            <h:outputLabel value="Thème :" for="theme" />
+            <h:outputText id="theme" value="#{ajoutQuestionnaire.questionnaireEnCours.theme}"
+                          title="Thème" />
+            <h:message for="theme" />
+            <h:outputLabel value="Id:" for="id" />
+            <h:outputText id="id" value="#{ajoutQuestionnaire.questionnaireEnCours.id}" title="Id" 
+                          readonly="true" />
+            <h:message for="id" />
+          </h:panelGrid>
+          <br/>
+
+          <!-- Les questions -->
+          <h:panelGroup rendered="#{ajoutQuestionnaire.questionnaireEnCours.questions != null}">
+            <h3>Questions :</h3>
+            <p:dataTable id="tableQuestions" value="#{ajoutQuestionnaire.questionnaireEnCours.questions}"
+                         var="question"
+                         emptyMessage="Pas de questions pour ce questionnaire">
+              <p:column headerText="Texte de la question">
+                <h:inputTextarea value="#{question.enonce}" size="80"
+                                 readonly="true"/>
+              </p:column>
+              <p:column headerText="Mots-clés">
+                <h:selectBooleanCheckbox value="#{question.motsCles}"
+                                         readonly="true"/>
+              </p:column>
+            </p:dataTable>
+          </h:panelGroup>
+          <br/><br/>
+          <h:link outcome="modifierQuestionnaire" value="Modifier ce questionnaire" >
+            <f:param name="idQuestionnaire" value="#{ajoutQuestionnaire.questionnaireEnCours.id}" />
+          </h:link>
+          <br/><br/>
+          <h:link outcome="listeQuestionnaires" value="Afficher tous les questionnaires" />
+        </h:form>
+      </ui:define>
+
+    </ui:composition>
+
+  </body>
+</html>

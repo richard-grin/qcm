@@ -60,7 +60,7 @@ public class Reponse implements Serializable {
   
   @Override
   public String toString() {
-    return "Reponse [intitule=" + intitule + ", ok=" + ok + "]";
+    return "Reponse [id=" + id + ", intitule=" + intitule + ", ok=" + ok + "]";
   }
 
   @Override

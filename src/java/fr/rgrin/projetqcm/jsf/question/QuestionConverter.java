@@ -1,4 +1,4 @@
-package fr.rgrin.projetqcm.jsf;
+package fr.rgrin.projetqcm.jsf.question;
 
 import fr.rgrin.projetqcm.ejb.QuestionFacade;
 import fr.rgrin.projetqcm.entite.Question;
@@ -22,7 +22,7 @@ public class QuestionConverter implements Converter {
 
   @Override
   public Object getAsObject(FacesContext context, UIComponent component, String value) {
-    System.out.println("Converter.getAsObject");
+    System.out.println("Converter.getAsObject de QuestionConverter");
     QuestionFacade ejb = lookupQuestionFacadeBean();
     return ejb.find(Long.parseLong(value));
   }

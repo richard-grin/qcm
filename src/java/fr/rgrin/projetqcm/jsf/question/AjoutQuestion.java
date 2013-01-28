@@ -1,9 +1,11 @@
-package fr.rgrin.projetqcm.jsf;
+package fr.rgrin.projetqcm.jsf.question;
 
 import fr.rgrin.projetqcm.ejb.QuestionFacade;
 import fr.rgrin.projetqcm.entite.Question;
 import fr.rgrin.projetqcm.entite.Reponse;
+import fr.rgrin.projetqcm.util.Divers;
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,6 +17,7 @@ import javax.faces.context.Flash;
  *
  * @author richard
  */
+// TODO: A passer en Viewscoped CDI dès que possible
 @ManagedBean
 @ViewScoped
 public class AjoutQuestion implements Serializable {
@@ -22,7 +25,12 @@ public class AjoutQuestion implements Serializable {
   @EJB
   private QuestionFacade questionFacade;
   private Question questionEnCours;
-  
+  private List<Reponse> reponses;
+
+  public List<Reponse> getReponses() {
+    return reponses;
+  }
+
   public AjoutQuestion() {
     System.out.println("Création nouveau backing bean " + this);
   }
@@ -37,7 +45,7 @@ public class AjoutQuestion implements Serializable {
   }
 
   /**
-   * 
+   *
    */
   public void initQuestion() {
     // Le if pour permettre d’ajouter une question
@@ -46,56 +54,94 @@ public class AjoutQuestion implements Serializable {
     // ajouter une nouvelle question et pour en modifier une.
 //    System.out.println("*******initQuestion ; questionEnCours=" + questionEnCours
 //            + "; nombre de réponses=" + questionEnCours.getReponses().size());
+    // Si on vient de la liste des questions, questionEnCours a été initialisé
+    // par un paramètre de vue.
     if (questionEnCours == null) {
       questionEnCours = new Question();
     }
+    reponses = questionEnCours.getReponses();
   }
 
   public void reset() {
 //    questionEnCours = new Question();
   }
 
-  /**
-   * Enregistre la question en cours dans la base.
-   */
-  public String enregistrer(boolean resterSurLaPage) {
-    System.out.println("**enregistrer: taille liste des réponses=" + questionEnCours.getReponses().size());
-    System.out.println("****la liste des réponses :" + questionEnCours.getReponses());
-    System.out.println("pour question " + questionEnCours);
+  public void enregistrerAjax() {
+    System.out.println("enregistrerAjax");
+    questionEnCours.setReponses(reponses);
     questionFacade.edit(questionEnCours);
-    // Ajout message de confirmation
     int tailleEnonce = questionEnCours.getEnonce().length();
     int taille = 10;
     if (tailleEnonce < taille) {
       taille = tailleEnonce;
     }
+    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+            "Question \""
+            + questionEnCours.getEnonce().substring(0, taille)
+            + (tailleEnonce > taille ? "..." : "")
+            + "\" enregistrée", null);
+    FacesContext.getCurrentInstance().addMessage(null, message);
+  }
+
+  /**
+   * Enregistre la question en cours dans la base.
+   */
+  public String enregistrer(boolean resterSurLaPage) {
+    questionEnCours.setReponses(reponses);
+    System.out.println("**enregistrer: taille liste des réponses=" + questionEnCours.getReponses().size());
+    System.out.println("****la liste des réponses :" + questionEnCours.getReponses());
+    System.out.println("pour question " + questionEnCours);
+    if (questionEnCours.getId() == null) {
+      questionFacade.create(questionEnCours);
+    } else {
+      questionFacade.edit(questionEnCours);
+    }
+//    System.out.println("====id de la question après le edit :" + questionEnCours.getId());
+//    questionFacade.flush();
+//    System.out.println("====id de la question après le flush et un refresh :" + questionEnCours.getId());
+    // Ajout message de confirmation
+    int tailleEnonce = questionEnCours.getEnonce().length();
+    int taille = 50;
+    if (tailleEnonce < taille) {
+      taille = tailleEnonce;
+    }
     addFlashMessage(new FacesMessage(FacesMessage.SEVERITY_INFO,
-            "Question \"" 
+            "Question \""
             + questionEnCours.getEnonce().substring(0, taille)
             + (tailleEnonce > taille ? "..." : "")
             + "\" enregistrée", null));
     if (resterSurLaPage) {
       // Pour afficher une nouvelle page vierge
       // (car le bean est de portée View).
-      return "creerQuestion?faces-redirect=true";
+      return "modifierQuestion?faces-redirect=true&amp;idQuestion=" + questionEnCours.getId();
     } else {
       return "listeQuestions?faces-redirect=true";
     }
   }
-  
+
   /**
    * Ajouter une réponse vide.
    */
   public void ajouterReponse() {
-    questionEnCours.ajouterReponse(new Reponse());
-//    System.out.println("**ajouterReponse: taille liste des réponses=" + questionEnCours.getReponses().size());
+//    questionEnCours.ajouterReponse(new Reponse());
+    reponses.add(new Reponse());
+    System.out.println("**ajouterReponse: taille liste des réponses=" + questionEnCours.getReponses().size());
+    System.out.println("Les réponses : " + reponses);
+    questionEnCours.setReponses(reponses);
   }
-  
+
   public void supprimerReponse(Reponse reponse) {
     System.out.println("supprimerReponse: reponse à supprimer=" + reponse + " de la question en cours " + questionEnCours);
-    questionEnCours.getReponses().remove(reponse);
-    System.out.println("****supprimerReponse: la liste des réponses après suppression :" 
-            + questionEnCours.getReponses());
+    System.out.println("La réponse est dans la liste ?" + reponses.contains(reponse));
+//    questionEnCours.getReponses().remove(reponse);
+    reponses.remove(reponse);
+    System.out.println("****supprimerReponse: la liste des réponses après suppression :"
+            + reponses);
+    questionEnCours.setReponses(reponses);
+  }
+
+  public int nbLignes(String texte, int nbMaxCaracteres) {
+    return Divers.nbLignes(texte, nbMaxCaracteres);
   }
 
   private void addFlashMessage(FacesMessage message) {

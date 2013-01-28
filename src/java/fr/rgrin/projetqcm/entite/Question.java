@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 
 /**
  * Une question du QCM
@@ -40,6 +41,7 @@ public class Question implements Serializable {
    */
   @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL,
   orphanRemoval = true)
+  @OrderColumn(name="numeroReponse")
   private List<Reponse> reponses = new ArrayList<>();
 
   public Question() {
@@ -75,7 +77,7 @@ public class Question implements Serializable {
   }
 
   public boolean isReponsesMultiples() {
-    System.out.println("isReponsesMultiples");
+//    System.out.println("isReponsesMultiples");
     return reponsesMultiples;
   }
 

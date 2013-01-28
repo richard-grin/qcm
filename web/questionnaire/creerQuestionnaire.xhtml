@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+  <body>
+
+    <ui:composition template="./../template.xhtml">
+
+      <ui:define name="metadata">
+        <f:metadata>
+          <ui:remove>
+            <f:viewParam name="idQuestionnaire" value="#{ajoutQuestionnaire.questionnaireEnCours}" />
+          </ui:remove>
+          <f:event listener="#{ajoutQuestionnaire.initQuestionnaire()}" type="preRenderView" />
+        </f:metadata>
+      </ui:define>
+
+
+      <ui:define name="content">
+        <h:form>
+          <h1><h:outputText value="Ajouter un questionnaire"/></h1>
+          <h:messages globalOnly="true" infoClass="info" />
+          <h:panelGrid columns="3">
+            <h:outputLabel value="Titre :" for="titre" />
+            <h:inputTextarea id="titre" value="#{ajoutQuestionnaire.questionnaireEnCours.titre}" 
+                             title="Titre" 
+                             required="true" 
+                             requiredMessage="Vous devez donner le tire du questionnaire" />
+            <h:message for="titre" />
+            <h:outputLabel value="Thème :" for="theme" />
+            <h:inputText id="theme" value="#{ajoutQuestionnaire.questionnaireEnCours.theme}"
+                         title="Thème" />
+            <h:message for="theme" />
+            <h:outputLabel value="Id:" for="id" />
+            <h:inputText id="id" value="#{ajoutQuestionnaire.questionnaireEnCours.id}" title="Id" 
+                         readonly="true" />
+            <h:message for="id" />
+          </h:panelGrid>
+          <br/>
+
+          <h:commandButton action="#{ajoutQuestionnaire.enregistrerEtChoixQuestions()}" 
+                           value="Enregistrer et choisir les questions" 
+                           title="Enregistrer le questionnaire et choisir ses questions">
+          </h:commandButton>
+          <h:commandButton action="#{ajoutQuestionnaire.enregistrer(true)}" 
+                           value="Enregistrer" 
+                           title="Enregistrer le questionnaire"/>
+          <h:commandButton action="#{ajoutQuestionnaire.enregistrer(false)}" 
+                           value="Enregistrer et voir la liste des questionnaires"
+                           title="Enregistrer le questionnaire"/>
+          <br/>
+          <h:commandButton type="reset" immediate="true" value="Reset" 
+                           action="#{ajoutQuestionnaire.reset}"/>
+          <br/><br/>
+          <h:link outcome="listeQuestionnaires" value="Afficher tous les questionnaires (sans enregistrer)" />
+        </h:form>
+      </ui:define>
+
+    </ui:composition>
+
+  </body>
+</html>

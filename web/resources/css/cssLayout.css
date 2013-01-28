@@ -18,7 +18,7 @@
     float: left;
     background-color: #ece3a5;
     padding: 5px;
-    width: 150px;
+    width: 200px;
 }
 
 #right {
@@ -37,7 +37,7 @@
 .left_content {
     background-color: #dddddd;
     padding: 5px;
-    margin-left: 170px;
+    margin-left: 210px;
 }
 
 .right_content {

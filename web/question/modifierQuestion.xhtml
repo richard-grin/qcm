@@ -18,13 +18,15 @@
       </ui:define>
 
       <ui:define name="content">
+        <h:messages id="messages" globalOnly="true"/>
         <h:form>
-          <h1><h:outputText value="Ajouter / Modifier une question"/></h1>
+          <h1><h:outputText value="Modifier une question"/></h1>
           <h:messages globalOnly="true" infoClass="info" />
           <h:panelGrid columns="3">
             <h:outputLabel value="Enonce:" for="enonce" />
             <h:inputTextarea id="enonce" value="#{ajoutQuestion.questionEnCours.enonce}" title="Enonce" 
-                             required="true" requiredMessage="Vous devez donner l'énoncé de la question" />
+                             required="true" requiredMessage="Vous devez donner l'énoncé de la question"
+                             cols="80" rows="5"/>
             <h:message for="enonce" />
             <h:outputLabel value="MotsCles:" for="motsCles" />
             <h:inputText id="motsCles" value="#{ajoutQuestion.questionEnCours.motsCles}"
@@ -38,12 +40,16 @@
           <br/>
 
           <!-- Les réponses aux questions -->
-          <h:panelGroup rendered="#{ajoutQuestion.questionEnCours.reponses != null}">
+          <h:panelGroup rendered="#{ajoutQuestion.reponses != null}">
             <h3>Réponses à la question :</h3>
-            <p:dataTable id="tableReponses" value="#{ajoutQuestion.questionEnCours.reponses}"
-                         var="reponse" binding="#{table}">
+            <p:dataTable id="tableReponses" value="#{ajoutQuestion.reponses}"
+                         var="reponse">
               <p:column headerText="Texte de la réponse">
-                <h:inputTextarea value="#{reponse.intitule}" size="80"/>
+                <h:inputTextarea value="#{reponse.intitule}" cols="50" 
+                                 required="true" id="intituleReponse"
+                                 label="texte de la réponse"/>
+                <h:message for="intituleReponse" 
+                           style="color: red;"/>
               </p:column>
               <p:column headerText="Réponse correcte ?">
                 <h:selectBooleanCheckbox value="#{reponse.ok}"/>
@@ -62,7 +68,10 @@
 
           <br/><br/>
           <h:commandButton action="#{ajoutQuestion.enregistrer(true)}" value="Enregistrer" 
-                           title="Enregistrer la question et ses réponses"/>
+                           title="Enregistrer la question et ses réponses">
+            <f:ajax listener="#{ajoutQuestion.enregistrerAjax}" 
+                    render=":messages"/>
+          </h:commandButton>
           <h:commandButton action="#{ajoutQuestion.enregistrer(false)}" value="Enregistrer et voir la liste des questions"
                            title="Enregistrer la question et ses réponses et afficher ensuite la liste des questions"/>
           <br/>

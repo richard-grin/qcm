@@ -1,5 +1,6 @@
 package fr.rgrin.projetqcm.entite;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -7,12 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OrderColumn;
 
 /**
  * Un QCM.
  */
 @Entity
-public class Questionnaire {
+public class Questionnaire implements Serializable {
   @Id
   @GeneratedValue
   private Long id;
@@ -20,6 +22,7 @@ public class Questionnaire {
    * Les questions du QCM.
    */
   @ManyToMany
+  @OrderColumn(name="numeroQuestion")
   private List<Question> questions = new ArrayList<>();
   /**
    * Le titre du Questionnaire.
@@ -78,6 +81,10 @@ public class Questionnaire {
 
   public List<Question> getQuestions() {
     return questions;
+  }
+
+  public void setQuestions(List<Question> questions) {
+    this.questions = questions;
   }
 
   @Override

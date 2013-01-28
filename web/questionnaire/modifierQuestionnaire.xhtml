@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+  <body>
+
+    <ui:composition template="./../template.xhtml">
+
+      <ui:define name="metadata">
+        <f:metadata>
+          <f:viewParam name="idQuestionnaire" value="#{modifierQuestionnaire.questionnaireEnCours}" />
+          <f:event listener="#{modifierQuestionnaire.initQuestionnaire()}" type="preRenderView" />
+        </f:metadata>
+      </ui:define>
+
+      <ui:define name="content">
+        <h:messages id="messages" globalOnly="true"/>
+        <h:form>
+          <h1><h:outputText value="Modifier un questionnaire"/></h1>
+          <h:messages globalOnly="true" infoClass="info" />
+          <h:panelGrid columns="3">
+            <h:outputLabel value="Titre" for="titre" />
+            <h:inputTextarea id="titre" value="#{modifierQuestionnaire.questionnaireEnCours.titre}" title="Enonce" 
+                             required="true" requiredMessage="Vous devez donner l'énoncé de la question"
+                             cols="80" rows="5"/>
+            <h:message for="titre" />
+            <h:outputLabel value="Thème :" for="theme" />
+            <h:inputText id="theme" value="#{modifierQuestionnaire.questionnaireEnCours.theme}"
+                         title="Thème du questionnaire" />
+            <h:message for="theme" />
+            <h:outputLabel value="Id:" for="id" />
+            <h:inputText id="id" value="#{modifierQuestionnaire.questionnaireEnCours.id}" title="Id" 
+                         readonly="true" />
+            <h:message for="id" />
+          </h:panelGrid>
+          <br/>
+          
+          <!-- Les questions du questionnaire -->
+          <h1>Choix des questions d'un questionnaire</h1>
+        Cochez les questions que vous voulez mettre dans votre questionnaire.
+        <br/><br/>
+          <p:dataTable value="#{modifierQuestionnaire.questions}" var="question"
+                       emptyMessage="Aucune question trouvée"
+                       selection="#{modifierQuestionnaire.questionsChoisies}"
+                       rowKey="#{question.id}" >
+            <p:column selectionMode="multiple"/>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="Enonce"/>
+              </f:facet>
+              <h:inputTextarea readonly="true"  value="#{question.enonce}" 
+                               cols="50" rows="#{question.enonce.length() / 50 + 1}"/>
+            </p:column>
+            <p:column filterBy="#{question.motsCles}"
+                      filterMatchMode="contains">
+              <f:facet name="header">
+                <h:outputText value="MotsCles"/>
+              </f:facet>
+              <h:outputText value="#{question.motsCles}"/>
+            </p:column>
+            <p:column>
+              <f:facet name="header">
+                <h:outputText value="Id"/>
+              </f:facet>
+              <h:outputText value="#{question.id}"/>
+            </p:column>
+            <p:column>
+              <h:link outcome="voirQuestion" value="Détails sur la question">
+                <f:param name="idQuestion" value="#{question.id}" />
+              </h:link>
+            </p:column>
+          </p:dataTable>
+          <br/>
+          <h:commandLink value="Enregistrer le questionnaire et ses questions"
+                         action="#{modifierQuestionnaire.enregistrer}" />
+        </h:form>
+      </ui:define>
+
+    </ui:composition>
+
+  </body>
+</html>

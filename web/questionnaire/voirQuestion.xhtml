@@ -58,11 +58,10 @@
             </p:dataTable>
           </h:panelGroup>
           <br/><br/>
-          <h:link outcome="modifierQuestion" value="Modifier cette question" >
+          <h:link outcome="choixQuestions?idQuestionnaire" 
+                  value="Retour choix questions pour questionnaire" >
             <f:param name="idQuestion" value="#{ajoutQuestion.questionEnCours.id}" />
           </h:link>
-          <br/><br/>
-          <h:link outcome="listeQuestions" value="Afficher toutes les questions" />
         </h:form>
       </ui:define>
 

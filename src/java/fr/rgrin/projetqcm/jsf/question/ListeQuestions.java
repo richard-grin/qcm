@@ -1,4 +1,4 @@
-package fr.rgrin.projetqcm.jsf;
+package fr.rgrin.projetqcm.jsf.question;
 
 import fr.rgrin.projetqcm.ejb.QuestionFacade;
 import fr.rgrin.projetqcm.entite.Question;

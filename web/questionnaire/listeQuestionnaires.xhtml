@@ -14,21 +14,21 @@
         <h:form>
           <h1><h:outputText value="Liste des questions"/></h1>
           <h:messages globalOnly="true" infoStyle="color: limegreen; font-weight : bold;"/>
-          <p:dataTable value="#{listeQuestions.questions}" var="item"
-                       emptyMessage="Aucune question trouvée"
+          <p:dataTable value="#{listeQuestionnaires.questionnaires}" var="item"
+                       emptyMessage="Aucun questionnaire trouvé"
                        paginator="true" rows="10">
             <p:column>
               <f:facet name="header">
-                <h:outputText value="Enonce"/>
+                <h:outputText value="Titre"/>
               </f:facet>
-              <h:inputTextarea readonly="true"  value="#{item.enonce}" 
-                               cols="50" rows="#{item.enonce.length() / 50 + 1}"/>
+              <h:inputTextarea readonly="true"  value="#{item.titre}" 
+                               cols="50" rows="#{item.titre.length() / 50 + 1}"/>
             </p:column>
             <p:column>
               <f:facet name="header">
-                <h:outputText value="MotsCles"/>
+                <h:outputText value="Thème"/>
               </f:facet>
-              <h:outputText value="#{item.motsCles}"/>
+              <h:outputText value="#{item.theme}"/>
             </p:column>
             <p:column>
               <f:facet name="header">
@@ -37,22 +37,25 @@
               <h:outputText value="#{item.id}"/>
             </p:column>
             <p:column>
-              <h:link outcome="voirQuestion" value="Détails sur la question">
-                <f:param name="idQuestion" value="#{item.id}" />
+              <h:link outcome="voirQuestionnaire" value="Détails sur le questionnaire">
+                <f:param name="idQuestionnaire" value="#{item.id}" />
               </h:link>
               <br/>
-              <h:link outcome="modifierQuestion" value="Modifier la question">
-                <f:param name="idQuestion" value="#{item.id}" />
+              <h:link outcome="modifierQuestionnaire" 
+                      value="Modifier le questionnaire">
+                <f:param name="idQuestionnaire" value="#{item.id}" />
               </h:link>
               <br/>
 
-              <h:commandLink action="#{listeQuestions.supprimerQuestion()}" value="Supprimer la question" >
-                <f:param name="idQuestion" value="#{item.id}" />
+              <h:commandLink action="#{listeQuestionnaires.supprimerQuestionnaire()}" 
+                             value="Supprimer le questionnaire" >
+                <f:param name="idQuestionnaire" value="#{item.id}" />
               </h:commandLink>
 
             </p:column>
           </p:dataTable>
-          <h:link outcome="creerQuestion" value="Ajouter une question"/>
+          <h:link outcome="creerQuestionnaire" 
+                  value="Ajouter un questionnaire"/>
         </h:form>
       </ui:define>
 
