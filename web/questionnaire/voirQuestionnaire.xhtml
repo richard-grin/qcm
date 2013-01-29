@@ -46,9 +46,14 @@
                                  readonly="true"/>
               </p:column>
               <p:column headerText="Mots-clés">
-                <h:selectBooleanCheckbox value="#{question.motsCles}"
-                                         readonly="true"/>
+                <h:inputTextarea value="#{question.motsCles}"
+                                 readonly="true"/>
               </p:column>
+              <p:column>
+              <h:link outcome="voirQuestion" value="Détails sur la question">
+                <f:param name="idQuestion" value="#{question.id}" />
+              </h:link>
+            </p:column>
             </p:dataTable>
           </h:panelGroup>
           <br/><br/>
