@@ -22,7 +22,8 @@
           <h:panelGrid columns="3">
             <h:outputLabel value="Titre :" for="titre" />
             <h:inputTextarea id="titre" value="#{ajoutQuestionnaire.questionnaireEnCours.titre}" title="Titre" 
-                             readOnly="true" />
+                             readOnly="true" 
+                             rows="#{ajoutQuestionnaire.questionnaireEnCours.titre.length() / 50 + 1}" cols="50"/>
             <h:message for="titre" />
             <h:outputLabel value="Thème :" for="theme" />
             <h:outputText id="theme" value="#{ajoutQuestionnaire.questionnaireEnCours.theme}"
@@ -33,7 +34,6 @@
                           readonly="true" />
             <h:message for="id" />
           </h:panelGrid>
-          <br/>
 
           <!-- Les questions -->
           <h:panelGroup rendered="#{ajoutQuestionnaire.questionnaireEnCours.questions != null}">
@@ -42,11 +42,12 @@
                          var="question"
                          emptyMessage="Pas de questions pour ce questionnaire">
               <p:column headerText="Texte de la question">
-                <h:inputTextarea value="#{question.enonce}" size="80"
-                                 readonly="true"/>
+                <h:inputTextarea value="#{question.enonce}"
+                                 readonly="true"
+                                 rows="#{question.enonce.length() / 50 + 1}" cols="50"/>
               </p:column>
               <p:column headerText="Mots-clés">
-                <h:inputTextarea value="#{question.motsCles}"
+                <h:inputText value="#{question.motsCles}"
                                  readonly="true"/>
               </p:column>
               <p:column>

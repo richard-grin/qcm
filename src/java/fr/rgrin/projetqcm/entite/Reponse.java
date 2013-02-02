@@ -2,12 +2,15 @@ package fr.rgrin.projetqcm.entite;
 
 import java.io.Serializable;
 import java.util.Objects;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 /**
- * Une réponse possible pour une question
+ * Une réponse possible pour une question.
+ * Inclut aussi la réponse d'un utilisateur pour faciliter la gestion
+ * des réponses des utilisateurs.
  */
 @Entity
 public class Reponse implements Serializable {
@@ -27,6 +30,12 @@ public class Reponse implements Serializable {
    */
 //  private boolean ok;
   private char ok;
+  /**
+   * Réponse d'un utilisateur.
+   * Vrai si la réponse a été cochée par l'utilisateur.
+   */
+  @Column(name="REPONSE_UTILISATEUR")
+  private char reponseUtilisateur;
   
   public Reponse() {
   }
@@ -57,10 +66,18 @@ public class Reponse implements Serializable {
   public boolean isOk() {
     return ok == 'o';
   }
+
+  public boolean getReponseUtilisateur() {
+    return reponseUtilisateur == 'o';
+  }
+
+  public void setReponseUtilisateur(boolean reponseUtilisateur) {
+    this.reponseUtilisateur = (reponseUtilisateur == true) ? 'o' : 'n';
+  }
   
   @Override
   public String toString() {
-    return "Reponse [id=" + id + ", intitule=" + intitule + ", ok=" + ok + "]";
+    return "Reponse [id=" + id + ", intitule=" + intitule + ", ok=" + ok + ", reponseUtilisateur=" + reponseUtilisateur + "]";
   }
 
   @Override

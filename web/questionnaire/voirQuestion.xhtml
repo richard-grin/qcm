@@ -40,20 +40,22 @@
           <h:panelGroup rendered="#{ajoutQuestion.questionEnCours.reponses != null}">
             <h3>Réponses à la question :</h3>
             <p:dataTable id="tableReponses" value="#{ajoutQuestion.questionEnCours.reponses}"
-                         var="reponse">
-              <p:column headerText="Texte de la réponse">
+                         var="reponse" style="width:370px">
+              <p:column headerText="Texte de la réponse"
+                        style="width:300px">
                 <h:inputTextarea value="#{reponse.intitule}"
                                  readonly="true"
                                  cols="50"
                                  rows="#{ajoutQuestion.nbLignes(reponse.intitule, 50)}"
                                  />
               </p:column>
-              <p:column headerText="Réponse correcte ?">
+              <p:column headerText="Réponse correcte ?"
+                        style="width:30px">
                 <h:selectBooleanCheckbox 
                   value="#{reponse.ok}"
                   readonly="true"
                   onclick="return false"
-                  disabled="true"/>
+                  />
               </p:column>
             </p:dataTable>
           </h:panelGroup>

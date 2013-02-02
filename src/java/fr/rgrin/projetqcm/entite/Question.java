@@ -68,7 +68,7 @@ public class Question implements Serializable {
   }
 
   public String getEnonce() {
-    System.out.println("getEnonce");
+    System.out.println(java.util.ResourceBundle.getBundle("fr/rgrin/projetqcm/bundle").getString("GETENONCE"));
     return enonce;
   }
 

@@ -12,25 +12,29 @@
 
       <ui:define name="content">
         <h:form>
-          <h1><h:outputText value="Liste des questions"/></h1>
+          <h1><h:outputText value="Liste des questionnaires"/></h1>
           <h:messages globalOnly="true" infoStyle="color: limegreen; font-weight : bold;"/>
           <p:dataTable value="#{listeQuestionnaires.questionnaires}" var="item"
                        emptyMessage="Aucun questionnaire trouvé"
                        paginator="true" rows="10">
-            <p:column>
+            <p:column filterBy="#{item.titre}" filterMatchMode="contains"
+                      style="width:400px;">
               <f:facet name="header">
                 <h:outputText value="Titre"/>
               </f:facet>
               <h:inputTextarea readonly="true"  value="#{item.titre}" 
                                cols="50" rows="#{item.titre.length() / 50 + 1}"/>
             </p:column>
-            <p:column>
+            <p:column filterBy="#{item.theme}" filterMatchMode="contains"
+                      style="width:200px;">
               <f:facet name="header">
                 <h:outputText value="Thème"/>
               </f:facet>
               <h:outputText value="#{item.theme}"/>
             </p:column>
-            <p:column>
+            <p:column filterBy="#{item.id}" filterMatchMode="exact" 
+                      filterMaxLength="4" 
+                      style="width:30px;">
               <f:facet name="header">
                 <h:outputText value="Id"/>
               </f:facet>
@@ -51,7 +55,12 @@
                              value="Supprimer le questionnaire" >
                 <f:param name="idQuestionnaire" value="#{item.id}" />
               </h:commandLink>
-
+           
+              <br/>
+              <h:commandLink action="#{testQuestionnaire.demarrerQcm(questionnaire)}" 
+                      value="Tester le questionnaire">
+                <f:param name="idQuestionnaire" value="#{item.id}" />
+              </h:commandLink>
             </p:column>
           </p:dataTable>
           <h:link outcome="creerQuestionnaire" 
