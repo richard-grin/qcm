@@ -45,7 +45,8 @@ public class AjoutQuestion implements Serializable {
   }
 
   /**
-   *
+   * Cette méthode est appelée par le listener preRenderView de la page pour
+   * ajouter une nouvelle question. A VOIR !!
    */
   public void initQuestion() {
     // Le if pour permettre d’ajouter une question
@@ -56,10 +57,18 @@ public class AjoutQuestion implements Serializable {
 //            + "; nombre de réponses=" + questionEnCours.getReponses().size());
     // Si on vient de la liste des questions, questionEnCours a été initialisé
     // par un paramètre de vue.
+    System.out.println("*************initQuestion !!!******");
     if (questionEnCours == null) {
       questionEnCours = new Question();
     }
-    reponses = questionEnCours.getReponses();
+    FacesContext fc = FacesContext.getCurrentInstance();
+    boolean ajaxRequest = fc.isPostback();
+    // Si ça n'est pas une requête Ajax
+    System.out.println("pppppppppppppp isAjaxRequest=" + fc.getPartialViewContext().isAjaxRequest());
+    System.out.println("ppppppppppppppppp isPostback = " + fc.isPostback());
+    if (! fc.getPartialViewContext().isAjaxRequest()) {
+      reponses = questionEnCours.getReponses();
+    }
   }
 
   public void reset() {
@@ -127,7 +136,7 @@ public class AjoutQuestion implements Serializable {
     reponses.add(new Reponse());
     System.out.println("**ajouterReponse: taille liste des réponses=" + questionEnCours.getReponses().size());
     System.out.println("Les réponses : " + reponses);
-    questionEnCours.setReponses(reponses);
+//    questionEnCours.setReponses(reponses);
   }
 
   public void supprimerReponse(Reponse reponse) {
@@ -137,7 +146,7 @@ public class AjoutQuestion implements Serializable {
     reponses.remove(reponse);
     System.out.println("****supprimerReponse: la liste des réponses après suppression :"
             + reponses);
-    questionEnCours.setReponses(reponses);
+//    questionEnCours.setReponses(reponses);
   }
 
   public int nbLignes(String texte, int nbMaxCaracteres) {

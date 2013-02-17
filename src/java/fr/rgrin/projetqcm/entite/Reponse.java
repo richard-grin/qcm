@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 /**
  * Une réponse possible pour une question.
@@ -27,14 +28,18 @@ public class Reponse implements Serializable {
    * une bonne réponse à la question.
    * Un bug de Java DB (ou du driver pour Java DB) 
    * fait que ça ne marche pas avec boolean.
+   * Ca marche maintenant dans la version actuelle.
    */
 //  private boolean ok;
   private char ok;
   /**
    * Réponse d'un utilisateur.
    * Vrai si la réponse a été cochée par l'utilisateur.
+   * Pas enregistré dans la base de données sous cette forme
+   * (voir 
    */
-  @Column(name="REPONSE_UTILISATEUR")
+  //@Column(name="REPONSE_UTILISATEUR")
+  @Transient
   private char reponseUtilisateur;
   
   public Reponse() {
@@ -99,6 +104,12 @@ public class Reponse implements Serializable {
     if (this.id != other.id) {
       return false;
     }
+    // this.id == other.id
+    if (this.id == null) {
+      // Les 2 id sont null ; ils sont les mêmes s'ils ont le même intitulé
+      return this.intitule.equals(other.intitule);
+    }
+    // Les 2 ids sont les mêmes et ne sont pas null
     return true;
   }
 }

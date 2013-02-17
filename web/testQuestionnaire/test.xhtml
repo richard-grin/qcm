@@ -11,44 +11,55 @@
     <ui:composition template="./../template.xhtml">
 
       <ui:remove>
-      <ui:define name="metadata">
-        <f:metadata>
-          <f:viewParam name="idQuestionnaire" value="#{testQuestionnaire.questionnaire}" />
-        </f:metadata>
-      </ui:define>
+        <ui:define name="metadata">
+          <f:metadata>
+            <f:viewParam name="idQuestionnaire" value="#{testQuestionnaire.questionnaire}" />
+          </f:metadata>
+        </ui:define>
 
-      <ui:define name="top">
-        top
-      </ui:define>
+        <ui:define name="top">
+          top
+        </ui:define>
 
-      <ui:define name="left">
-        left
-      </ui:define>
-</ui:remove>
+        <ui:define name="left">
+          left
+        </ui:define>
+      </ui:remove>
       <ui:define name="content">
         <h1>#{testQuestionnaire.questionnaire.titre}</h1>
         <h:form>
-        <ui:repeat value="#{testQuestionnaire.questionnaire.questions}"
-                   var="question">
-          <b>Question #{testQuestionnaire.numeroQuestion} :</b> 
-          <br/>
-          <h:inputTextarea value="#{question.enonce}" readreadonly="true" 
-                           cols="50" 
-                           rows="#{testQuestionnaire.nbLignes(question.enonce, 50)}"/>
-          
-
-          <br/>
-          <ui:repeat value="#{question.reponses}" var="reponse">
-            #{reponse.intitule} 
-            <h:selectBooleanCheckbox value="#{reponse.reponseUtilisateur}" />
+          <ui:repeat value="#{testQuestionnaire.questionnaire.questions}"
+                     var="question" varStatus="statut">
+            <b>Question #{statut.index + 1} :</b> 
             <br/>
+            <h:inputTextarea value="#{question.enonce}" readreadonly="true" 
+                             cols="50" 
+                             rows="#{testQuestionnaire.nbLignes(question.enonce, 50)}"
+                             />
+
+
+            <br/>
+            <ui:repeat value="#{question.reponses}" var="reponse"
+                       varStatus="statut2">
+              <h:outputText value="#{statut2.index + 1} -"
+                            rendered="#{question.reponses.size() > 1}" 
+                            style="vertical-align: top;"/>
+              <h:outputText value="&nbsp;&nbsp;&nbps; " rendered="#{question.reponses.size() == 1}" 
+                            style="vertical-align: top;"/>
+              <h:inputTextarea value="#{reponse.intitule}" readonly="true"
+                               cols="50" 
+                               rows="#{testQuestionnaire.nbLignes(reponse.intitule, 50)}"/>
+              <h:selectBooleanCheckbox value="#{reponse.reponseUtilisateur}"
+                                       style="vertical-align: top;"/>
+              <h:outputText value="&lt;br/>" rendered="#{! statut2.end}"
+                            escape="false"/>
+            </ui:repeat>
+            <br/><br/>
           </ui:repeat>
-          <br/><br/>
-        </ui:repeat>
-        
+
 
           <h:commandButton value="Enregistrer les réponses"
-                         action="#{testQuestionnaire.terminerQcm()}" />
+                           action="#{testQuestionnaire.terminerQcm()}" />
         </h:form>
 
       </ui:define>
