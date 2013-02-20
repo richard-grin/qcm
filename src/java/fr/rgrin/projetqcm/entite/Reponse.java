@@ -77,12 +77,14 @@ public class Reponse implements Serializable {
   }
 
   public void setReponseUtilisateur(boolean reponseUtilisateur) {
+    System.out.println("+++Reponse id=" + id + " - " + super.toString() + " - setReponseUtilisateur(" + reponseUtilisateur + ")");
     this.reponseUtilisateur = (reponseUtilisateur == true) ? 'o' : 'n';
+    System.out.println("+++reponseUtilisateur=" + reponseUtilisateur);
   }
   
   @Override
   public String toString() {
-    return "Reponse [id=" + id + ", intitule=" + intitule + ", ok=" + ok + ", reponseUtilisateur=" + reponseUtilisateur + "]";
+    return "Reponse " + " - " + super.toString() + " - [id=" + id + ", intitule=||" + intitule + "||, ok=" + ok + ", reponseUtilisateur=" + reponseUtilisateur + "]";
   }
 
   @Override

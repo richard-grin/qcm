@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
+import javax.faces.event.AjaxBehaviorEvent;
 
 /**
  *
@@ -147,6 +148,10 @@ public class AjoutQuestion implements Serializable {
     System.out.println("****supprimerReponse: la liste des réponses après suppression :"
             + reponses);
 //    questionEnCours.setReponses(reponses);
+  }
+  
+  public void testListener(AjaxBehaviorEvent event) {
+    System.out.println("***testListener***");
   }
 
   public int nbLignes(String texte, int nbMaxCaracteres) {

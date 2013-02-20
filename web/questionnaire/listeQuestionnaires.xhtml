@@ -57,10 +57,10 @@
               </h:commandLink>
            
               <br/>
-              <h:commandLink action="#{testQuestionnaire.demarrerQcm(questionnaire)}" 
+              <h:link outcome="/testQuestionnaire/test"
                       value="Tester le questionnaire">
                 <f:param name="idQuestionnaire" value="#{item.id}" />
-              </h:commandLink>
+              </h:link>
             </p:column>
           </p:dataTable>
           <h:link outcome="creerQuestionnaire" 

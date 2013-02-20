@@ -100,12 +100,12 @@ public class Question implements Serializable {
   }
 
   public List<Reponse> getReponses() {
-    System.out.println("getReponses pour question " + this + " qui retourne "+ reponses);
+//    System.out.println("getReponses pour question " + this + " qui retourne "+ reponses);
     return reponses;
   }
   
   public void setReponses(List<Reponse> reponses) {
-    System.out.println("*****+++++setReponses pour question " + this + "avec reponses=" + reponses);
+//    System.out.println("*****+++++setReponses pour question " + this + "avec reponses=" + reponses);
     this.reponses = reponses;
   }
 

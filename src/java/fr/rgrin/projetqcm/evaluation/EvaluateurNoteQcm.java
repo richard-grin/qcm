@@ -17,5 +17,5 @@ public interface EvaluateurNoteQcm {
    * les réponses de l'utilisateur.
    * @return la note
    */
-  public int calculNote(Questionnaire questionnaire);
+  public double calculNote(Questionnaire questionnaire);
 }

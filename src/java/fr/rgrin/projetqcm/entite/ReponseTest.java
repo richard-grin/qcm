@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.rgrin.projetqcm.entite;
 
 import javax.persistence.Entity;
@@ -28,8 +24,20 @@ public class ReponseTest {
    */
   @ManyToOne
   private Reponse reponse;
+  /**
+   * Le test pendant lequel la réponse a été choisie par l'utilisateur.
+   */
+  @ManyToOne
+  private TestQcm testQcm;
   
   public ReponseTest() { }
   
-  
+  public ReponseTest(TestQcm testQcm, Reponse reponse, boolean valeurReponse) {
+    this.valeurReponse = valeurReponse;
+    this.reponse = reponse;
+    this.testQcm = testQcm;
+    // L'autre bout de l'association
+    this.testQcm.ajouterReponseTest(this);
+  }
+ 
 }

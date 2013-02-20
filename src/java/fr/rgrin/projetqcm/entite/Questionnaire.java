@@ -76,7 +76,7 @@ public class Questionnaire implements Serializable {
 
   @Override
   public String toString() {
-    return "Questionnaire{" + "questions=" + questions + ", titre=" + titre + ", theme=" + theme + '}';
+    return "Questionnaire{" + super.toString() + ", questions=" + questions + ", titre=" + titre + ", theme=" + theme + '}';
   }
 
   public List<Question> getQuestions() {

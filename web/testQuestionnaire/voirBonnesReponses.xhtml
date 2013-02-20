@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- Voir les bonnes réponses et la note. Les bonnes coches sont en vert et les mauvaises en rouge. -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -10,17 +11,13 @@
 
     <ui:composition template="./../template.xhtml">
 
-      <ui:define name="metadata">
-        <f:metadata>
-          <ui:remove>
-          <f:viewParam name="idQuestionnaire" value="#{testQuestionnaire.questionnaire}" />
-          </ui:remove>
-          <f:event type="preRenderView" listener="#{testQuestionnaire.demarrerQcm()}" />
-        </f:metadata>
-      </ui:define>
-
       <ui:define name="content">
         <h1>#{testQuestionnaire.testQcm.questionnaire.titre}</h1>
+        <h2>Votre note : <h:outputText value="#{testQuestionnaire.testQcm.note}">
+            <f:convertNumber pattern="#00.00"/>
+          </h:outputText></h2>
+        Vos réponses sont rappelées ci-dessous. En vert si la réponse était bonne
+        et en rouge sinon.
         <h:form>
           <ui:repeat value="#{testQuestionnaire.testQcm.questionnaire.questions}"
                      var="question" varStatus="statut">
@@ -43,6 +40,7 @@
                                cols="50" 
                                rows="#{testQuestionnaire.nbLignes(reponse.intitule, 50)}"/>
               <h:selectBooleanCheckbox value="#{reponse.reponseUtilisateur}"
+                                       onclick="return false"
                                        style="vertical-align: top;"/>
               <h:outputText value="&lt;br/>" rendered="#{! statut2.end}"
                             escape="false"/>
@@ -50,8 +48,9 @@
             <br/><br/>
           </ui:repeat>
 
-          <h:commandButton value="Enregistrer les réponses"
-                           action="#{testQuestionnaire.terminerQcm()}" />
+          <h:button value="Liste des questionnaires"
+                    outcome="/questionnaire/listeQuestionnaires" 
+                    />
         </h:form>
 
       </ui:define>

@@ -56,9 +56,9 @@
               </p:column>
               <p:column>
                 <h:commandButton value="Supprimer cette réponse"
-                                  >
+                  action="#{ajoutQuestion.supprimerReponse(reponse)}" >
                   <f:ajax execute=":formulaire:panelReponses" render=":formulaire:panelReponses" 
-                          listener="#{ajoutQuestion.supprimerReponse(reponse)}"/>
+                          listener="#{ajoutQuestion.testListener}"/>
                 </h:commandButton>
               </p:column>
             </p:dataTable>
