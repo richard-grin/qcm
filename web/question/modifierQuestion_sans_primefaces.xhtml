@@ -41,10 +41,12 @@
             <h3>Réponses à la question :</h3>
             <h:dataTable id="tableReponses" value="#{ajoutQuestion.questionEnCours.reponses}"
                          var="reponse">
-              <h:column headerText="Texte de la réponse">
-                <h:inputTextarea value="#{reponse.intitule}" size="80"/>
+              <h:column>
+                <f:facet name="header">Texte de la réponse</f:facet>
+                <h:inputTextarea value="#{reponse.intitule}" cols="80"/>
               </h:column>
-              <h:column headerText="Réponse correcte ?">
+              <h:column>
+                <f:facet name="header">Réponse correcte ?</f:facet>
                 <h:selectBooleanCheckbox value="#{reponse.ok}"/>
               </h:column>
               <h:column>

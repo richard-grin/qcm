@@ -3,7 +3,10 @@ package fr.rgrin.projetqcm.entite;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -43,6 +46,49 @@ public class Questionnaire implements Serializable {
   public Questionnaire(String titre) {
     this.titre = titre;
   }
+  
+  /**
+   * Constructeur de copie.
+   * Utilisé pour ranger les réponses de l'utilisateur pour faciliter
+   * leurs manipulations et pour éviter les accès concurrents.
+   * Est-ce intéressant de l'utiliser ?
+   * @param questionnaire 
+   */
+  public Questionnaire(Questionnaire questionnaire) {
+    this.titre = questionnaire.titre;
+    this.theme = questionnaire.theme;
+    ArrayList<Question> listeQuestions = 
+            new ArrayList(questionnaire.questions.size());
+    for (Question question : questionnaire.questions) {
+      // copie en profondeur de la question
+      Question copieQuestion = new Question(question);
+      listeQuestions.add(copieQuestion);
+    }
+    this.questions = listeQuestions;
+  }
+  
+  /**
+   * Copie un questionnaire en y ajoutant les réponses données par un
+   * utilisateur lors d'un test du questionnaire.
+   * Utilisé pour ranger les réponses de l'utilisateur pour faciliter
+   * leurs manipulations et pour éviter les accès concurrents.
+   * Est-ce intéressant de l'utiliser ?
+   * @param questionnaire 
+   */
+  public Questionnaire(Questionnaire questionnaire, 
+          Map<Long,ReponseTest> mapReponsesUtilisateur) {
+    this.titre = questionnaire.titre;
+    this.theme = questionnaire.theme;
+    ArrayList<Question> listeQuestions = 
+            new ArrayList(questionnaire.questions.size());
+    for (Question question : questionnaire.questions) {
+      // copie en profondeur de la question
+      Question copieQuestion = 
+              new Question(question, mapReponsesUtilisateur);
+      listeQuestions.add(copieQuestion);
+    }
+    this.questions = listeQuestions;
+  }
 
   public Long getId() {
     return id;
@@ -76,7 +122,9 @@ public class Questionnaire implements Serializable {
 
   @Override
   public String toString() {
-    return "Questionnaire{" + super.toString() + ", questions=" + questions + ", titre=" + titre + ", theme=" + theme + '}';
+    return "Questionnaire{" + super.toString() 
+            + ", questions=" + questions 
+            + ", titre=" + titre + ", theme=" + theme + '}';
   }
 
   public List<Question> getQuestions() {

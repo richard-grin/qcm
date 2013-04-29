@@ -3,9 +3,28 @@
   <persistence-unit name="qcmPU" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>jdbc/qcm</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>fr.rgrin.fr.rgrin.projetqcm.entite.Question</class>
+    <class>fr.rgrin.fr.rgrin.projetqcm.entite.Questionnaire</class>
+    <class>fr.rgrin.fr.rgrin.projetqcm.entite.Reponse</class>
+    <class>fr.rgrin.fr.rgrin.projetqcm.entite.ReponseTest</class>
+    <class>fr.rgrin.fr.rgrin.projetqcm.entite.Resultat1Question</class>
+    <class>fr.rgrin.fr.rgrin.projetqcm.entite.Resultat1Questionnaire</class>
+    <class>fr.rgrin.fr.rgrin.projetqcm.entite.TestQcm</class>
+    <!-- Obligatoire s'il y a plusieurs bases -->
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
-      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.ddl-generation" value="none"/>
+    </properties>
+  </persistence-unit>
+  <!-- Si on veut utiliser explicitement les tables utilises pour le login -->
+  <persistence-unit name="loginPU" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>jdbc/login</jta-data-source>
+    <class>fr.rgrin.login.entite.Login</class>
+    <class>fr.rgrin.login.entite.Groupe</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="eclipselink.ddl-generation" value="none"/>
     </properties>
   </persistence-unit>
 </persistence>

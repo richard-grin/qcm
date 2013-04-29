@@ -123,6 +123,10 @@ public class AjoutQuestion implements Serializable {
     if (resterSurLaPage) {
       // Pour afficher une nouvelle page vierge
       // (car le bean est de portée View).
+      // à tester : reconstituer l'URL de la page avec ExternalContext.
+      // J'ai eu un problème : comment faire une redirection vers la même page
+      // tout en restant dans la même portée vue (pour ne pas avoir à passer à 
+      // nouveau le id).
       return "modifierQuestion?faces-redirect=true&amp;idQuestion=" + questionEnCours.getId();
     } else {
       return "listeQuestions?faces-redirect=true";

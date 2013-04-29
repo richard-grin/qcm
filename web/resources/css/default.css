@@ -32,3 +32,14 @@ a:link:hover, a:visited:hover  {
   color: limegreen;
   font-weight : bold;
 }
+
+/* Pour les réponses justes ou fausses aux questions du QCM */
+
+.reponse-fausse {
+  background-color : #D20005;
+}
+
+.reponse-bonne {
+  background-color: chartreuse;
+}
+

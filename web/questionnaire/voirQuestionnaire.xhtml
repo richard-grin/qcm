@@ -22,7 +22,7 @@
           <h:panelGrid columns="3">
             <h:outputLabel value="Titre :" for="titre" />
             <h:inputTextarea id="titre" value="#{ajoutQuestionnaire.questionnaireEnCours.titre}" title="Titre" 
-                             readOnly="true" 
+                             readonly="true" 
                              rows="#{ajoutQuestionnaire.questionnaireEnCours.titre.length() / 50 + 1}" cols="50"/>
             <h:message for="titre" />
             <h:outputLabel value="Thème :" for="theme" />
@@ -30,8 +30,7 @@
                           title="Thème" />
             <h:message for="theme" />
             <h:outputLabel value="Id:" for="id" />
-            <h:outputText id="id" value="#{ajoutQuestionnaire.questionnaireEnCours.id}" title="Id" 
-                          readonly="true" />
+            <h:outputText id="id" value="#{ajoutQuestionnaire.questionnaireEnCours.id}" title="Id" />
             <h:message for="id" />
           </h:panelGrid>
 

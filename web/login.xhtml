@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+  <ui:composition template="template.xhtml">
+    <ui:define name="title">
+      <h:outputText value="#{bundle.Login_Titre}"></h:outputText>
+    </ui:define>
+    <ui:define name="content">
+      <form method="post" action="j_security_check">
+        <p>#{bundle.Login_Message}</p>
+        <table>
+          <tr>
+            <td>#{bundle.identifiant}</td>
+            <td><input type="text" name="j_username" /></td>
+          </tr>
+          <tr>
+            <td>#{bundle.motDePasse}</td>
+            <td><input type="password" name="j_password" /></td>
+          </tr>
+        </table>
+        <p><input type="submit" value="Login" /></p>
+      </form>
+      <h:form>
+        <!-- Cas où l'utilisateur a oublié son mot de passe
+               ou n'a pas encore de compte. -->
+          <h:panelGrid columns="2">
+            <h:outputLabel value="#{bundle.oubliMotDePasse}" for="oubliMotDePasse" />
+            <h:commandLink id="oubliMotDePasse"
+              action="#{accueilController.oubliMotDePasse()}" 
+                           value="#{bundle.cliquerIci}" immediate="true"/>
+            <h:outputLabel value="#{bundle.pasDeCompte}" for="NouveauCompte" />
+            <h:commandLink id="NouveauCompte"
+              action="#{accueilController.inscription()}" 
+                           value="#{bundle.cliquerIci}" immediate="true"/>
+          </h:panelGrid>
+      </h:form>
+      
+    </ui:define>
+  </ui:composition>
+</html>

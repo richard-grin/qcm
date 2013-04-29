@@ -1,6 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!-- Voir les bonnes réponses et la note. Les bonnes coches sont en vert et les mauvaises en rouge. -->
+<!-- Afficher un test déjà passé par un utilisateur, d'après ce qui a été 
+     enregistré dans la base de données. L'id du test est passé en paramètre
+     de la requête. -->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -10,16 +12,22 @@
   <body>
 
     <ui:composition template="./../template.xhtml">
+      
+      <ui:define name="metadata">
+        <f:metadata>
+          <f:viewParam name="idTest" value="#{voirTest.idTestQcm}" />
+        </f:metadata>
+      </ui:define>
 
       <ui:define name="content">
-        <h1>#{testQuestionnaire.testQcm.questionnaire.titre}</h1>
-        <h2>Votre note : <h:outputText value="#{testQuestionnaire.testQcm.note}">
+        <h1>Titre du QCM : #{voirTest.testQcm.questionnaire.titre}</h1>
+        <h2>La note : <h:outputText value="#{voirTest.testQcm.note}">
             <f:convertNumber pattern="#0.##"/>
           </h:outputText> / 20</h2>
-        Vos réponses sont rappelées ci-dessous. En vert si la réponse était bonne
+        Les réponses sont rappelées ci-dessous. En vert si la réponse était bonne
         et en rouge sinon.
         <h:form>
-          <ui:repeat value="#{testQuestionnaire.testQcm.questionnaire.questions}"
+          <ui:repeat value="#{voirTest.testQcm.questionnaire.questions}"
                      var="question" varStatus="statut">
             <b>Question #{statut.index + 1} :</b> 
             <br/>
@@ -39,9 +47,11 @@
               <h:inputTextarea value="#{reponse.intitule}" readonly="true"
                                cols="50" 
                                rows="#{testQuestionnaire.nbLignes(reponse.intitule, 50)}"/>
+              
               <h:selectBooleanCheckbox value="#{reponse.reponseUtilisateur}"
                                        onclick="return false;"
                                        style="vertical-align: top;" />
+              
               <h:outputText value="#{reponse.reponseUtilisateur == reponse.ok ? 'BON' : 'FAUX'}"
                             styleClass="#{testQuestionnaire.classeCss(reponse)}" 
                             style="vertical-align: top;"/>

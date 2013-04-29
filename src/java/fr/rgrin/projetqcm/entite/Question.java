@@ -3,6 +3,7 @@ package fr.rgrin.projetqcm.entite;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -45,6 +46,48 @@ public class Question implements Serializable {
   private List<Reponse> reponses = new ArrayList<>();
 
   public Question() {
+  }
+  
+  /**
+   * Constructeur de copie
+   * @param question 
+   */
+  public Question(Question question) {
+    this.enonce = question.enonce;
+    this.motsCles = question.motsCles;
+    this.reponsesMultiples = question.reponsesMultiples;
+    List<Reponse> copieReponses = new ArrayList(question.reponses.size());
+    for (Reponse reponse : question.reponses) {
+      // copie de la réponse
+      Reponse copieReponse = new Reponse();
+      copieReponse.setIntitule(reponse.getIntitule());
+      copieReponse.setOk(reponse.isOk());
+      copieReponses.add(copieReponse);
+    }
+    this.reponses = copieReponses;
+  }
+  
+  /**
+   * Copie de la question en y mettant les réponses d'un utilisateur
+   * @param question 
+   * @param testQcm le test qui a été passé par l'utilisateur, qui contient
+   * les réponses de l'utilisateur que l'on veut mettre dans les 
+   * réponses aux questions.
+   */
+  public Question(Question question, Map<Long,ReponseTest> reponsesUtilisateur) {
+    this.enonce = question.enonce;
+    this.motsCles = question.motsCles;
+    this.reponsesMultiples = question.reponsesMultiples;
+    List<Reponse> copieReponses = new ArrayList(question.reponses.size());
+    for (Reponse reponse : question.reponses) {
+      // copie de la réponse
+      Reponse copieReponse = new Reponse();
+      copieReponse.setIntitule(reponse.getIntitule());
+      copieReponse.setOk(reponse.isOk());
+      copieReponse.setReponseUtilisateur(reponsesUtilisateur.get(reponse.getId()).isValeurReponse());
+      copieReponses.add(copieReponse);
+    }
+    this.reponses = copieReponses;
   }
 
   /**

@@ -1,25 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-    <context-param>
-        <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
-    </context-param>
-    <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/faces/*</url-pattern>
-    </servlet-mapping>
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
-    <welcome-file-list>
-        <welcome-file>faces/index.xhtml</welcome-file>
-    </welcome-file-list>
+  <context-param>
+    <param-name>javax.faces.PROJECT_STAGE</param-name>
+    <param-value>Development</param-value>
+  </context-param>
+  <servlet>
+    <servlet-name>Faces Servlet</servlet-name>
+    <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Faces Servlet</servlet-name>
+    <url-pattern>/faces/*</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>
+      30
+    </session-timeout>
+  </session-config>
+  <welcome-file-list>
+    <welcome-file>faces/index.xhtml</welcome-file>
+  </welcome-file-list>
+    
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <realm-name>login</realm-name>
+    <form-login-config>
+      <form-login-page>/faces/login.xhtml</form-login-page>
+      <form-error-page>/faces/noauth.xhtml</form-error-page>
+    </form-login-config>
+  </login-config>
+  <security-role>
+    <description>Enseignant</description>
+    <role-name>enseignant</role-name>
+  </security-role>
+  <security-role>
+    <description>Etudiant</description>
+    <role-name>etudiant</role-name>
+  </security-role>
+  
+  <!-- Gestion des questionnaires est réservée aux enseignants. -->
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Gestion questionnaires</web-resource-name>
+      <url-pattern>/faces/question/*</url-pattern>
+      <url-pattern>/faces/questionnaire/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>enseignant</role-name>
+    </auth-constraint>
+  </security-constraint>
+  
+  <!-- Passer un questionnaire est réservé aux enseignants et aux étudiants. -->
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Tests questionnaires</web-resource-name>
+      <url-pattern>/faces/testQuestionnaire/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>enseignant</role-name>
+      <role-name>etudiant</role-name>
+    </auth-constraint>
+  </security-constraint>
+  
+  <error-page>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/faces/erreur.xhtml</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/faces/erreur.xhtml</location>
+  </error-page>
+  <error-page>
+    <error-code>403</error-code>
+    <location>/faces/forbidden.xhtml</location>
+  </error-page>
+  <error-page>
+    <error-code>404</error-code>
+    <location>/faces/notfound.xhtml</location>
+  </error-page>
+
  
 </web-app>

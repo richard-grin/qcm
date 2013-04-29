@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
   <h:head>
     <title>QCMs</title>
   </h:head>
@@ -10,6 +11,12 @@
       <h:link outcome="/question/listeQuestions" value="Gestion des questions" />
       <br/>
       <h:link outcome="/questionnaire/listeQuestionnaires" value="Gestion des questionnaires" />
+      <br/>
+      <h:link outcome="/testQuestionnaire/passerQuestionnaire" value="Passer un questionnaire" />
+      <br/>
+      <ui:remove>
+      <h:link outcome="/notes/voirNotes" value="Voir les notes" />
+      </ui:remove>
     </h:form>
     <br />
   </body>

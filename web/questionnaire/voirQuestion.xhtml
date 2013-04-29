@@ -22,7 +22,7 @@
           <h:panelGrid columns="3">
             <h:outputLabel value="Enonce:" for="enonce" />
             <h:inputTextarea id="enonce" value="#{ajoutQuestion.questionEnCours.enonce}" title="Enonce" 
-                             readOnly="true" cols="50" rows="#{ajoutQuestion.nbLignes(item.enonce, 50)}"
+                             readonly="true" cols="50" rows="#{ajoutQuestion.nbLignes(item.enonce, 50)}"
                              />
             <h:message for="enonce" />
             <h:outputLabel value="Mots clés:" for="motsCles" />
@@ -30,8 +30,7 @@
                           title="Mots clés, séparés par des virgules" />
             <h:message for="motsCles" />
             <h:outputLabel value="Id:" for="id" />
-            <h:outputText id="id" value="#{ajoutQuestion.questionEnCours.id}" title="Id" 
-                          readonly="true" />
+            <h:outputText id="id" value="#{ajoutQuestion.questionEnCours.id}" title="Id" />
             <h:message for="id" />
           </h:panelGrid>
           <br/>
@@ -54,7 +53,7 @@
                 <h:selectBooleanCheckbox 
                   value="#{reponse.ok}"
                   readonly="true"
-                  onclick="return false"
+                  onclick="return false;"
                   />
               </p:column>
             </p:dataTable>

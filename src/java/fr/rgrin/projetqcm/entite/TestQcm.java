@@ -1,18 +1,18 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package fr.rgrin.projetqcm.entite;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -24,7 +24,13 @@ import javax.persistence.TemporalType;
  * @author richard
  */
 @Entity
-public class TestQcm {
+@NamedQuery(name="testQcm.findToutQuestionnaireById",
+        query="select q, r, t, rt "
+        + "from ReponseTest rt join rt.testQcm t join t.questionnaire.questions q join q.reponses r "
+        + "where r.id = rt.reponse.id and rt.testQcm.id = :idTest "
+        + "  and t.id = :idTest "
+        + "order by index(q), index(r)")
+public class TestQcm implements Serializable {
   @Id
   @GeneratedValue
   private long id;
@@ -41,7 +47,13 @@ public class TestQcm {
   private Questionnaire questionnaire;
 
   public Questionnaire getQuestionnaire() {
-    return questionnaire;
+    return this.questionnaire;
+  }
+
+  public void setQuestionnaire(Questionnaire questionnaire) {
+    System.out.println("***** TestQcm.setQuestionnaire - met ce questionnaire dans testQcm :" + questionnaire);
+    this.questionnaire = questionnaire;
+    System.out.println("****** Fin de TestQcm.setQuestionnaire - testQcm =" + this);
   }
   
   @OneToMany(mappedBy="testQcm", cascade=CascadeType.ALL, orphanRemoval = true)
@@ -87,9 +99,47 @@ public class TestQcm {
     return note;
   }
 
+  public long getId() {
+    return id;
+  }
+
+  public Date getDate() {
+    return date;
+  }
+
+  public Date getHeure() {
+    return heure;
+  }
+
+  public List<ReponseTest> getReponsesTest() {
+    return reponsesTests;
+  }
+  
+  /**
+   * @return retourne une copie du questionnaire associé à ce test,
+   * avec les réponses de l'utilisateur mises
+   * au bon endroit (dans la réponse associée).
+   */
+  public Questionnaire getQuestionnaireAvecReponsesUtilisateur() {
+    Questionnaire questionnaireSansReponseUtilisateur = this.questionnaire;
+    // On met les réponses de l'utilisateur dans une map avec les id
+    // des Reponse comme clé.
+    List<ReponseTest> listeReponses = this.getReponsesTest();
+    Map<Long,ReponseTest> mapReponsesUtilisateur = new HashMap<>();
+    for (ReponseTest reponseUtilisateur : listeReponses) {
+      mapReponsesUtilisateur.put(reponseUtilisateur.getReponse().getId(), reponseUtilisateur);
+    }
+    System.out.println("******Les réponses de l'utilisateur : " + listeReponses);
+    // Faire une copie du questionnaire avec les réponses au bon endroit
+    Questionnaire questionnaireAvecReponsesUtilisateur = 
+            new Questionnaire(questionnaireSansReponseUtilisateur, mapReponsesUtilisateur);
+    System.out.println("questionnaireAvecReponsesUtilisateur = " + questionnaireAvecReponsesUtilisateur);
+    return questionnaireAvecReponsesUtilisateur;
+  }
+
   @Override
   public String toString() {
-    return "TestQcm{" + "id=" + id + ", note=" + note + ", questionnaire=" + questionnaire.getId() 
+    return "TestQcm{" + "id=" + id + ", note=" + note + ", id questionnaire=" + questionnaire.getId()
             + ", reponsesTests=" + reponsesTests + ", date=" + date + '}';
   }
 

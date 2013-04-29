@@ -217,6 +217,17 @@ public class TestQuestionnaire implements Serializable {
     testQcmFacade.create(testQcm);
   }
 
+  public String classeCss(Reponse reponse) {
+    System.out.println("============================= classeCss!!!!!!!!!!!");
+    if (reponse.getReponseUtilisateur() != reponse.isOk()) {
+      System.out.println("REPONSE FAUSSE");
+      return "reponse-fausse";
+    } else {
+      System.out.println("REPONSE BONNE");
+      return "reponse-bonne";
+    }
+  }
+
   /**
    * Passer à la question suivante
    *
