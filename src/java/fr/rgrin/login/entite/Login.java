@@ -6,6 +6,9 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,11 +26,20 @@ import javax.persistence.NamedQuery;
 public class Login implements Serializable {
 
   @Id
+  @Column(length = 20)
   private String login;
-  @Column(name = "MOT_DE_PASSE")
+  @Column(name = "MOT_DE_PASSE", length = 64)
   private String motDePasse;
+  @Column(length = 80)
   private String email;
   @ManyToMany
+  @JoinTable( 
+          joinColumns=@JoinColumn(name="LOGIN"),
+          inverseJoinColumns=@JoinColumn(name="ID_GROUPE")
+  )
+//  @JoinColumn(
+//          name="LOGIN",
+//          referencedColumnName="ID_GROUPE")
   private List<Groupe> groupes = new ArrayList<>();
 
   public Login(String login, String motDePasse) {

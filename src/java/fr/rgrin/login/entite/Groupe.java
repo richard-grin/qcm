@@ -17,10 +17,9 @@ import javax.persistence.ManyToMany;
 public class Groupe implements Serializable {
   @Id
   @GeneratedValue
-  @Column(name="ID_GROUPE")
-  private Long idGroupe;
-  @Column(name="NOM_GROUPE")
-  private String nomGroupe;
+  private Long id;
+  @Column(length=30)
+  private String nom;
   @ManyToMany(mappedBy="groupes")
   private List<Login> logins = new ArrayList<>();
   
@@ -28,11 +27,11 @@ public class Groupe implements Serializable {
   }
   
   public Groupe(String nom) {
-    this.nomGroupe = nom;
+    this.nom = nom;
   }
 
-  public Long getIdGroupe() {
-    return idGroupe;
+  public Long getId() {
+    return id;
   }
   
   void addUtilisateur(Login utilisateur) {

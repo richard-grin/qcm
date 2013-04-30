@@ -4,6 +4,7 @@
  */
 package fr.rgrin.projetqcm.entite;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 /**
@@ -12,6 +13,7 @@ import javax.persistence.Entity;
  */
 @Entity
 public class Enseignant extends Utilisateur {
+  @Column(length=50)
   private String departement;
 
   public String getDepartement() {

@@ -10,6 +10,7 @@ import javax.ejb.TransactionAttribute;
 import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 
 /**
@@ -19,7 +20,8 @@ import javax.persistence.criteria.CriteriaQuery;
 @Singleton
 @Startup
 public class Init {
-  @PersistenceContext(unitName="loginPU")
+
+  @PersistenceContext(unitName = "loginPU")
   private EntityManager em;
 
   /**
@@ -29,6 +31,22 @@ public class Init {
   @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
   public void init() {
     System.out.println("************************INIT !!!!!!!!!!!!!");
+    // Création de la vue qui sert pour le domaine de sécurité
+    // pour la table des groupes.
+
+    String ordreCreaVue =
+            "create view V_LOGIN_GROUPE(LOGIN, NOM_GROUPE) as "
+            + " select LOGIN, GROUPE.NOM "
+            + " from GROUPE join LOGIN_GROUPE "
+            + " on GROUPE.ID = LOGIN_GROUPE.ID_GROUPE ";
+    try {
+      Query q = em.createNativeQuery(ordreCreaVue);
+      q.executeUpdate();
+      System.out.println("********* Vue créée");
+    } catch (Throwable throwable) {
+      System.out.println("Vue pas créée :" + throwable);
+    }
+    // Insertion des comptes utilisateur
     // Regarde si des logins existent déjà
     CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
     cq.select(cq.from(Login.class));
@@ -48,7 +66,7 @@ public class Init {
       em.persist(grin);
       em.persist(pierre);
       em.persist(jacques);
+      System.out.println("*********Utilisateurs créés");
     }
   }
-
 }
